@@ -8,6 +8,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -26,30 +27,51 @@ class Player
     /**
      * @var string
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank(message = "fullName is required")
      */
     private $fullName;
 
     /**
      * @var integer
      * @ORM\Column(type="smallint", nullable=true)
-     */
+     * @Assert\NotBlank(message = "number is required")
+     * @Assert\Type(
+     *     type="digit",
+     *     message="The number of the shirt must be integer"
+     * )
+     * @Assert\Range(
+     *      min = 1,
+     *      max = 99,
+            minMessage = "The shirt number must be at least {{ limit }}",
+     *      maxMessage = "The number of the shirt must be at most {{ limit }}"
+     * )
+     */ //TODO: Validar que otro jugador del equipo no tiene el mismo número
     private $number;
 
     /**
      * @var string
      * @ORM\Column(type="string", length=100, nullable=true)
+     * @Assert\NotBlank(message = "position is required")
+     * @Assert\Choice(
+     *     strict=true,
+     *     choices={"Central","Delantero centro","Extremo derecho","Extremo izquierdo","Lateral derecho","Lateral izquierdo","Mediapunta","Mediocentro","Mediocentro defensivo","Mediocentro ofensivo","Portero"},
+     *     message="The position must be one of the following: Central|Delantero centro|Extremo derecho|Extremo izquierdo|Lateral derecho|Lateral izquierdo|Mediapunta|Mediocentro|Mediocentro defensivo|Mediocentro ofensivo|Portero"
+     * )
      */
     private $position;
 
     /**
      * @var \DateTime
      * @ORM\Column(type="date", nullable=true)
+     * @Assert\NotBlank(message = "dateOfBirth is required and format must be yyyy-mm-dd")
+     * @Assert\DateTime(format = "Y-m-d", message = "dateOfBirth incorrect format, format: yyyy-mm-dd")
      */
     private $dateOfBirth;
 
     /**
      * @var string
      * @ORM\Column(type="string", length=30, nullable=true)
+     * @Assert\NotBlank(message = "nationality is required")
      */
     private $nationality;
 
@@ -57,6 +79,7 @@ class Player
      * @var Team
      * @ORM\ManyToOne(targetEntity="Team", inversedBy="players")
      * @ORM\JoinColumn(name="team_id", referencedColumnName="id", nullable=true)
+     * @Assert\NotNull(message = "teamId is required and must have a valid value")
      */
     private $team;
 
@@ -87,7 +110,7 @@ class Player
     /**
      * @param string $fullName
      */
-    public function setFullName(string $fullName)
+    public function setFullName($fullName)
     {
         $this->fullName = $fullName;
     }
@@ -103,7 +126,7 @@ class Player
     /**
      * @param int $number
      */
-    public function setNumber(int $number)
+    public function setNumber($number)
     {
         $this->number = $number;
     }
@@ -119,7 +142,7 @@ class Player
     /**
      * @param string $position
      */
-    public function setPosition(string $position)
+    public function setPosition($position)
     {
         $this->position = $position;
     }
@@ -133,11 +156,16 @@ class Player
     }
 
     /**
-     * @param \DateTime $dateOfBirth
+     * @param mixed $dateOfBirth
      */
-    public function setDateOfBirth(\DateTime $dateOfBirth)
+    public function setDateOfBirth($dateOfBirth)
     {
-        $this->dateOfBirth = $dateOfBirth;
+        if (is_string($dateOfBirth)) {
+            $dateOfBirth = \DateTime::createFromFormat('Y-m-d', $dateOfBirth);
+        }
+        if ($dateOfBirth) {
+            $this->dateOfBirth = $dateOfBirth;
+        }
     }
 
     /**
@@ -151,7 +179,7 @@ class Player
     /**
      * @param string $nationality
      */
-    public function setNationality(string $nationality)
+    public function setNationality($nationality)
     {
         $this->nationality = $nationality;
     }
