@@ -21,32 +21,6 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class PlayerController extends Controller
 {
     /**
-     * @param Team $team
-     * @Route("players/{id}", name="players_by_team_list")
-     * @Method({"GET"})
-     */
-    public function list(Team $team = null)
-    {
-        if (null === $team) {
-            return new JsonResponse(['Error' => 'Team not exists'], 404);
-        }
-
-        $playersData = [];
-        foreach ($team->getPlayers() as $player) {
-            $playersData[] = [
-                'id' => $player->getId(),
-                'fullName' => $player->getFullName(),
-                'position' => $player->getPosition(),
-                'number' => $player->getNumber(),
-                'nationality' => $player->getNationality(),
-            ];
-        }
-
-        return new JsonResponse($playersData);
-    }
-
-
-    /**
      * @Route("player", name="create_player")
      * @Method({"POST"})
      */
