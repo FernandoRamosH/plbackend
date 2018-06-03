@@ -23,6 +23,7 @@ class PlayerController extends Controller
     /**
      * @param Team $team
      * @Route("players/{id}", name="players_by_team_list")
+     * @Method({"GET"})
      */
     public function list(Team $team = null)
     {

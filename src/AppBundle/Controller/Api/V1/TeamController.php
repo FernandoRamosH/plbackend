@@ -11,6 +11,7 @@ use AppBundle\Entity\Team;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class TeamController extends Controller
@@ -19,6 +20,7 @@ class TeamController extends Controller
      * List Of teams
      *
      * @Route("teams", name="team_list")
+     * @Method({"GET"})
      */
     public function list()
     {
