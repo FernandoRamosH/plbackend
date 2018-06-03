@@ -21,7 +21,7 @@ Llamadas de ejemplo:
   
 [http://plbackend.fernandoramos.eu/api/v1/teams](http://plbackend.fernandoramos.eu/api/v1/teams)  
   
-[http://plbackend.fernandoramos.eu/api/v1/players/9](http://plbackend.fernandoramos.eu/api/v1/players/9)  
+[http://plbackend.fernandoramos.eu/api/v1/team/16](http://plbackend.fernandoramos.eu/api/v1/team/16)  
   
   
 Documentación de la API  
