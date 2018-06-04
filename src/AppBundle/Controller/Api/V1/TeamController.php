@@ -62,6 +62,7 @@ class TeamController extends Controller
                 'position' => $player->getPosition(),
                 'number' => $player->getNumber(),
                 'nationality' => $player->getNationality(),
+                'dateOfBirth' => $player->getDateOfBirth()->format('d-m-Y'),
             ];
         }
 
